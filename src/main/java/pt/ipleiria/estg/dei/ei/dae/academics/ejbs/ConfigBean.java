@@ -8,10 +8,13 @@ import jakarta.ejb.Startup;
 public class ConfigBean {
     @EJB
     private StudentBean studentBean;
+    @EJB
+    private CourseBean courseBean;
 
     @PostConstruct
     public void populateDB() {
         System.out.println("Hello Java EE!");
+        courseBean.create();
         studentBean.create();
     }
 }

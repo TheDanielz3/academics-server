@@ -14,9 +14,11 @@ public class StudentDTO implements Serializable {
     private String password;
     private String email;
 
+    private Long courseCode;
+    private String courseName;
+
     public StudentDTO() {
     }
-
     public String getUsername() {
         return username;
     }
@@ -49,14 +51,37 @@ public class StudentDTO implements Serializable {
         this.email = email;
     }
 
-    public StudentDTO(String username, String name, String password, String email) {
+    public Long getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(Long courseCode) {
+        this.courseCode = courseCode;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public StudentDTO(String username, String name, String password, String email,Long courseCode,String courseName) {
         this.username = username;
         this.name = name;
         this.password = password;
         this.email = email;
+        this.courseCode = courseCode;
+        this.courseName = courseName;
     }
     public static StudentDTO from(Student student) { return new StudentDTO(
-            student.getUsername(), student.getPassword(), student.getName(), student.getEmail()
+            student.getUsername(),
+            student.getPassword(),
+            student.getName(),
+            student.getEmail(),
+            student.getCourse().getCode(),
+            student.getCourse().getName()
     ); }
     // converts an entire list of entities into a list of DTOs
     public static List<StudentDTO> from(List<Student> students) {
