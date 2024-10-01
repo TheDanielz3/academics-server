@@ -1,8 +1,11 @@
 package pt.ipleiria.estg.dei.ei.dae.academics.dtos;
 
 import jakarta.persistence.Id;
+import pt.ipleiria.estg.dei.ei.dae.academics.entities.Student;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class StudentDTO implements Serializable {
     @Id
@@ -51,5 +54,12 @@ public class StudentDTO implements Serializable {
         this.name = name;
         this.password = password;
         this.email = email;
+    }
+    public static StudentDTO from(Student student) { return new StudentDTO(
+            student.getUsername(), student.getPassword(), student.getName(), student.getEmail()
+    ); }
+    // converts an entire list of entities into a list of DTOs
+    public static List<StudentDTO> from(List<Student> students) {
+        return students.stream().map(StudentDTO::from).collect(Collectors.toList());
     }
 }

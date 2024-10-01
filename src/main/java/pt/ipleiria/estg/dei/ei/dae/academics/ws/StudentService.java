@@ -20,20 +20,10 @@ public class StudentService {
     @EJB
     private StudentBean studentBean;
 
-    private StudentDTO toDTO(Student student){
-        return new StudentDTO(
-                student.getUsername(),
-                student.getPassword(),
-                student.getName(),
-                student.getEmail()
-        );
-    }
-    private List<StudentDTO> toDTOs(List<Student> students) {
-        return students.stream().map(this::toDTO).collect(Collectors.toList());
-    }
+
     @GET// means: to call this endpoint, we need to use the HTTP GET method
     @Path("/all") // means: the relative url path is “/api/students/all”
     public List<StudentDTO> getAllStudents() {
-        return toDTOs(studentBean.getAll());
+        return StudentDTO.from(studentBean.findAll());
     }
 }
