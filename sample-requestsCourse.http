@@ -1,0 +1,15 @@
+### Get All Students
+GET http://localhost:8080/academics/api/students/all
+Accept: application/json
+
+### Create A New Student
+POST http://localhost:8080/academics/api/students
+Content-Type: application/json
+
+{
+"email": "johndoe@mail.com",
+"name": "John Doe",
+"username": "john",
+"password": "jd",
+"courseCode": 1
+}
