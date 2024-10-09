@@ -7,11 +7,12 @@ import jakarta.persistence.PersistenceContext;
 import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.dae.academics.entities.Student;
 import pt.ipleiria.estg.dei.ei.dae.academics.entities.Subject;
+import pt.ipleiria.estg.dei.ei.dae.academics.entities.Teacher;
 
 import java.util.List;
 
 @Stateless
-public class StudentBean {
+public class TeacherBean {
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -21,14 +22,14 @@ public class StudentBean {
     @EJB
     private SubjectBean subjectBean;
     public void create (){
-        var student = new Student("danielz3","daniel","daniel","daniel@dnaiel.com",courseBean.find(2123L));
-        entityManager.persist(student);
+        var teacher = new Teacher("danielz33","daniel3","daniel3","danie3l@dnaiel.com","escritorioTop");
+        entityManager.persist(teacher);
     }
-    public void create (String username, String password, String name, String email, Long courseCode){
-        var student = new Student(username,name,password,email,courseBean.find(courseCode));
-        entityManager.persist(student);
+    public void create (String username, String password, String name, String email, String office){
+        var teacher = new Teacher(username,name,password,email,office);
+        entityManager.persist(teacher);
     }
-    public Student find(String username){
+   /* public Student find(String username){
         var student = entityManager.find(Student.class,username);
         if (student == null){
             throw new RuntimeException("course"+username+"not found!");
@@ -62,5 +63,5 @@ public class StudentBean {
           throw new RuntimeException("Courses are diferent");
       }
 
-    }
+    }*/
 }

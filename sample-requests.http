@@ -2,6 +2,15 @@
 GET http://localhost:8080/academics/api/students/all
 Accept: application/json
 
+### Get Student 2
+GET http://localhost:8080/academics/api/students/danielz3
+Accept: application/json
+
+### Get Student 2 Subjects
+GET http://localhost:8080/academics/api/students/danielz3/subjects
+Accept: application/json
+
+
 ### Create A New Student
 POST http://localhost:8080/academics/api/students
 Content-Type: application/json
