@@ -13,3 +13,28 @@ Content-Type: application/json
 "password": "jd",
 "courseCode": 1
 }
+
+
+### Get All Students
+GET http://localhost:8080/academics/api/courses/1
+Accept: application/json
+
+### Create A Course
+POST http://localhost:8080/academics/api/courses/
+Content-Type: application/json
+
+{
+  "code": 1234444,
+  "name": "qwerasd"
+}
+
+### Update A Course
+PUT http://localhost:8080/academics/api/courses/
+Content-Type: application/json
+
+{
+  "code": 1234444,
+  "name": "dffdsdsfdsfsdffsdsdffsdsdf"
+}
+### Delete A Course
+DELETE http://localhost:8080/academics/api/courses/123
