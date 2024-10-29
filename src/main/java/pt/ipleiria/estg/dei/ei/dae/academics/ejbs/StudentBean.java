@@ -7,6 +7,8 @@ import jakarta.persistence.PersistenceContext;
 import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.dae.academics.entities.Student;
 import pt.ipleiria.estg.dei.ei.dae.academics.entities.Subject;
+import pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityExistsException;
+import pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityNotFoundException;
 
 import java.util.List;
 
@@ -24,14 +26,22 @@ public class StudentBean {
         var student = new Student("danielz3","daniel","daniel","daniel@dnaiel.com",courseBean.find(2123L));
         entityManager.persist(student);
     }
-    public void create (String username, String password, String name, String email, Long courseCode){
-        var student = new Student(username,name,password,email,courseBean.find(courseCode));
-        entityManager.persist(student);
+    public void create (String username, String password, String name, String email, Long courseCode) throws MyEntityExistsException {
+        var found = entityManager.find(Student.class,username);
+
+        if (found == null)
+        {
+            var student = new Student(username,name,password,email,courseBean.find(courseCode));
+            entityManager.persist(student);
+        }
+        else {
+        throw new MyEntityExistsException("Student with username '" + username + "' already exists");
+        }
     }
-    public Student find(String username){
+    public Student find(String username)throws MyEntityNotFoundException{
         var student = entityManager.find(Student.class,username);
         if (student == null){
-            throw new RuntimeException("course"+username+"not found!");
+            throw new MyEntityNotFoundException("course"+username+"not found!");
         }
         return student;
     }
@@ -40,13 +50,13 @@ public class StudentBean {
         return entityManager.createNamedQuery("getAllStudents", Student.class).getResultList();
     }
 
-    public Student findWithSubjects(String username){
+    public Student findWithSubjects(String username)throws MyEntityNotFoundException{
         var student = this.find(username);
         Hibernate.initialize(student.getSubjects());
         return student;
     }
 
-    public void enrollStudentInSubject(String usernameStudent,Long subjectCode){
+    public void enrollStudentInSubject(String usernameStudent,Long subjectCode)throws MyEntityNotFoundException{
       Student foundStudent =  this.find(usernameStudent);
       Subject foundSubject = subjectBean.find(subjectCode);
       if(foundStudent == null || foundSubject == null){

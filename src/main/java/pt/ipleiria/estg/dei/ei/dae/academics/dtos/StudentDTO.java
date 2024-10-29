@@ -2,8 +2,11 @@ package pt.ipleiria.estg.dei.ei.dae.academics.dtos;
 
 import jakarta.persistence.Id;
 import pt.ipleiria.estg.dei.ei.dae.academics.entities.Student;
+import pt.ipleiria.estg.dei.ei.dae.academics.entities.Subject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +19,8 @@ public class StudentDTO implements Serializable {
 
     private Long courseCode;
     private String courseName;
+
+    private List<SubjectDTO> subjects;
 
     public StudentDTO() {
     }
@@ -67,15 +72,27 @@ public class StudentDTO implements Serializable {
         this.courseName = courseName;
     }
 
-    public StudentDTO(String username, String name, String password, String email,Long courseCode,String courseName) {
+    public List<SubjectDTO> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<SubjectDTO> subjects) {
+        this.subjects = subjects;
+    }
+
+    public StudentDTO(String username, String name, String password, String email, Long courseCode, String courseName) {
         this.username = username;
         this.name = name;
         this.password = password;
         this.email = email;
         this.courseCode = courseCode;
         this.courseName = courseName;
+        this.subjects = new LinkedList<>();
+
     }
-    public static StudentDTO from(Student student) { return new StudentDTO(
+    public static StudentDTO from(Student student) {
+
+        return new StudentDTO(
             student.getUsername(),
             student.getPassword(),
             student.getName(),

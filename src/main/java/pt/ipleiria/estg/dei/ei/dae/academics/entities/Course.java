@@ -14,7 +14,7 @@ import java.util.Objects;
                 query = "SELECT c FROM Course c ORDER BY c.code"
         )
 })
-public class Course implements Serializable {
+public class Course extends Versionable implements Serializable {
     @Id
     private Long code;
 
@@ -25,6 +25,7 @@ public class Course implements Serializable {
 
     @OneToMany(mappedBy = "course")
     private List<Subject> subjects;
+
 
     public Course() {
     }

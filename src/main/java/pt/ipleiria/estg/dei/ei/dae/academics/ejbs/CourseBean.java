@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.academics.ejbs;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.academics.dtos.CourseDTO;
 import pt.ipleiria.estg.dei.ei.dae.academics.entities.Course;
@@ -41,6 +42,7 @@ public class CourseBean {
         Course course = null;
         try{
              course = entityManager.find(Course.class,courseDTO.getCode());
+            entityManager.lock(course, LockModeType.OPTIMISTIC);
             if(course == null){
                 throw new RuntimeException("course"+courseDTO.getCode()+"not found!");
             }

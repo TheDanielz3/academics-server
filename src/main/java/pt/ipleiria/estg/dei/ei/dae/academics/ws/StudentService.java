@@ -8,6 +8,8 @@ import pt.ipleiria.estg.dei.ei.dae.academics.dtos.StudentDTO;
 import pt.ipleiria.estg.dei.ei.dae.academics.dtos.SubjectDTO;
 import pt.ipleiria.estg.dei.ei.dae.academics.ejbs.StudentBean;
 import pt.ipleiria.estg.dei.ei.dae.academics.entities.Student;
+import pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityExistsException;
+import pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +31,7 @@ public class StudentService {
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createNewStudent (StudentDTO studentDTO){
+    public Response createNewStudent (StudentDTO studentDTO) throws MyEntityExistsException, MyEntityNotFoundException {
         studentBean.create(
                 studentDTO.getUsername(),
                 studentDTO.getPassword(),
@@ -38,19 +40,21 @@ public class StudentService {
                 studentDTO.getCourseCode()
         );
         Student newStudent = studentBean.find(studentDTO.getUsername());
-        return Response.status(Response.Status.CREATED) .entity(StudentDTO.from(newStudent)).build();
+        return Response.status(Response.Status.CREATED).entity(StudentDTO.from(newStudent)).build();
     }
 
     @GET
     @Path("{username}")
-    public Response getStudent(@PathParam("username") String username) {
-        var student = studentBean.find(username);
-        return Response.ok(StudentDTO.from(student)).build();
+    public Response getStudent(@PathParam("username") String username) throws MyEntityNotFoundException {
+        var student = studentBean.findWithSubjects(username);
+        var studentDTO = StudentDTO.from(student);
+        studentDTO.setSubjects(SubjectDTO.from(student.getSubjects()));
+        return Response.ok(studentDTO).build();
     }
 
     @GET
     @Path("{username}/subjects")
-    public Response getStudentSubjects(@PathParam("username") String username) {
+    public Response getStudentSubjects(@PathParam("username") String username) throws MyEntityNotFoundException {
         var student = studentBean.findWithSubjects(username);
         return Response.ok(SubjectDTO.from(student.getSubjects())).build();
     }

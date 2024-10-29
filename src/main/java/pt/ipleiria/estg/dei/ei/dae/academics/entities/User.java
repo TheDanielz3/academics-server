@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 // Extra: try the other strategies... what happens to the database?
-public class User implements Serializable {
+public class User extends Versionable implements Serializable  {
 @Id
 private String username;
 @NotNull

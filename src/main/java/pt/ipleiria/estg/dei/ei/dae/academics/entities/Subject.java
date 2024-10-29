@@ -16,7 +16,7 @@ import java.util.List;
                 name = "getAllSubjects",
                 query = "SELECT s FROM Subject s ORDER BY s.course.name,s.schoolYear DESC ,s.courseYear,s.name"
         )
-})public class Subject implements Serializable {
+})public class Subject extends Versionable implements Serializable {
     @Id
     private Long code;
 
