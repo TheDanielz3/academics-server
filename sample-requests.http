@@ -22,3 +22,13 @@ Content-Type: application/json
 "password": "jd",
 "courseCode": 1
 }
+
+
+### Send a Email
+POST http://localhost:8080/academics/api/students/danielz3/email
+Content-Type: application/json
+
+{
+  "subject": "PUT ME OUT ME FUCKYYY MESSORRRYYYYY",
+  "body": "put me OUT A MY MISSERYYYY"
+}

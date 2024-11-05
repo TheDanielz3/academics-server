@@ -50,7 +50,6 @@ public class CourseBean {
             entityManager.merge(course);
         }catch (Exception e)
         {
-
             throw new RuntimeException("aquiii"+e);
         }
         finally {
