@@ -32,3 +32,16 @@ Content-Type: application/json
   "subject": "PUT ME OUT ME FUCKYYY MESSORRRYYYYY",
   "body": "put me OUT A MY MISSERYYYY"
 }
+
+
+### REQUEST JWT TOKEN
+POST http://localhost:8080/academics/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{ "username": "danielz33", "password": "daniel3" }
+
+### GET ALL STUDENTS
+GET http://localhost:8080/academics/api/students/all
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJkYW5pZWx6MzMiLCJpYXQiOjE3MzA4NDYyNTksImV4cCI6MTczMDg0OTg1OX0.bSB_KUV8lmhbeWSM8FW724U4yNqeCqpLvgWbu-tieBZnWHVMjNdPcjfii67uTrNj

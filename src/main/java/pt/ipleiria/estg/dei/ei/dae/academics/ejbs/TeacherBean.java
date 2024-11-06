@@ -2,12 +2,14 @@ package pt.ipleiria.estg.dei.ei.dae.academics.ejbs;
 
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.dae.academics.entities.Student;
 import pt.ipleiria.estg.dei.ei.dae.academics.entities.Subject;
 import pt.ipleiria.estg.dei.ei.dae.academics.entities.Teacher;
+import pt.ipleiria.estg.dei.ei.dae.academics.security.Hasher;
 
 import java.util.List;
 
@@ -21,12 +23,17 @@ public class TeacherBean {
 
     @EJB
     private SubjectBean subjectBean;
+
+    @Inject
+
+    private Hasher hasher;
+
     public void create (){
-        var teacher = new Teacher("danielz33","daniel3","daniel3","danie3l@dnaiel.com","escritorioTop");
+        var teacher = new Teacher("danielz33",hasher.hash("daniel3"),"daniel3","danie3l@dnaiel.com","escritorioTop");
         entityManager.persist(teacher);
     }
     public void create (String username, String password, String name, String email, String office){
-        var teacher = new Teacher(username,name,password,email,office);
+        var teacher = new Teacher(username,name,hasher.hash(password),email,office);
         entityManager.persist(teacher);
     }
    /* public Student find(String username){

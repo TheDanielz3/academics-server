@@ -1,10 +1,13 @@
 package pt.ipleiria.estg.dei.ei.dae.academics.ws;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.mail.MessagingException;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.academics.dtos.EmailDTO;
 import pt.ipleiria.estg.dei.ei.dae.academics.dtos.StudentDTO;
 import pt.ipleiria.estg.dei.ei.dae.academics.dtos.SubjectDTO;
@@ -13,6 +16,7 @@ import pt.ipleiria.estg.dei.ei.dae.academics.ejbs.StudentBean;
 import pt.ipleiria.estg.dei.ei.dae.academics.entities.Student;
 import pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityNotFoundException;
+import pt.ipleiria.estg.dei.ei.dae.academics.security.Authenticated;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -21,12 +25,17 @@ import java.util.stream.Collectors;
 @Path("students")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
+@Authenticated
+@RolesAllowed({"Teacher", "Administrator"})
 public class StudentService {
     @EJB
     private StudentBean studentBean;
 
     @EJB
     private EmailBean emailBean;
+
+    @Context
+    private SecurityContext securityContext;
 
     @GET// means: to call this endpoint, we need to use the HTTP GET method
     @Path("/all") // means: the relative url path is “/api/students/all”
@@ -51,6 +60,7 @@ public class StudentService {
 
     @GET
     @Path("{username}")
+    @RolesAllowed({"Student"})
     public Response getStudent(@PathParam("username") String username) throws MyEntityNotFoundException {
         var student = studentBean.findWithSubjects(username);
         var studentDTO = StudentDTO.from(student);
